@@ -10,7 +10,8 @@ class DisplayableProductTransformer @Inject constructor() {
             product.brand.name,
             product.name,
             product.imageUrl.small,
-            formatPrice(product.price)
+            formatPrice(product.price),
+            product.id
         )
     }
 
