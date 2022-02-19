@@ -7,11 +7,11 @@ import javax.inject.Inject
 class DisplayableProductTransformer @Inject constructor() {
     fun transformProduct(product: Product): DisplayableProduct {
         return DisplayableProduct(
-            product.brand.name,
-            product.name,
-            product.imageUrl.small,
-            formatPrice(product.price),
-            product.id
+            brandName = product.brand.name,
+            productName = product.name,
+            image = product.imageUrl.small,
+            price = formatPrice(product.price),
+            id = product.id
         )
     }
 
