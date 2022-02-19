@@ -2,6 +2,11 @@ package com.example.sephorachallenge.presentation.di.modules
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.data.repository.ProductsApiService
+import com.example.data.repository.ProductsRepositoryImpl
+import com.example.domain.repository.ProductsRepository
+import com.example.sephorachallenge.domain.mapper.DisplayableProductTransformer
+import com.example.sephorachallenge.presentation.ProductsViewModel
 import com.example.sephorachallenge.presentation.fragment.ProductsFragment
 import dagger.Binds
 import dagger.Module
@@ -21,21 +26,21 @@ class ProductsModule(private val fragment: ProductsFragment) {
 
         @Binds
         abstract fun bindRepository(repository: ProductsRepositoryImpl): ProductsRepository
-
     }
 
     @Provides
     fun provideViewModel(factory: ProductsViewModelFactory): ProductsViewModel {
-        return ViewModelProvider(fragment, factory).get(ProductsViewModel::class.java)
+        return ViewModelProvider(fragment, factory)[ProductsViewModel::class.java]
     }
 }
 
 class ProductsViewModelFactory @Inject constructor(
     private val productsRepository: ProductsRepository,
+    private val transformer: DisplayableProductTransformer,
     private val dispatcher: CoroutineDispatcher
-): ViewModelProvider.Factory {
+) : ViewModelProvider.Factory {
 
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return ProductsViewModel(productsRepository, dispatcher)
-    } as T
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel> create(modelClass: Class<T>): T =
+        ProductsViewModel(productsRepository, transformer, dispatcher) as T
 }

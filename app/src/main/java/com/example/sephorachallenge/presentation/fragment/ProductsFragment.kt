@@ -4,21 +4,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sephorachallenge.app.SephoraChallengeApplication
 import com.example.sephorachallenge.databinding.FragmentProductsBinding
+import com.example.sephorachallenge.presentation.ProductsDisplayState
+import com.example.sephorachallenge.presentation.ProductsViewModel
+import com.example.sephorachallenge.presentation.StateChild
+import com.example.sephorachallenge.presentation.adapter.ProductsAdapter
+import com.example.sephorachallenge.presentation.di.components.DaggerProductsComponent
 import com.example.sephorachallenge.presentation.di.modules.ProductsModule
+import com.example.sephorachallenge.presentation.state
 import javax.inject.Inject
 
 class ProductsFragment : BaseFragment() {
 
-    //private lateinit var productsAdapter: ProductsAdapter
+    private lateinit var productsAdapter: ProductsAdapter
     private var binding: FragmentProductsBinding? = null
 
     @Inject
     lateinit var viewModel: ProductsViewModel
-
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         injectDependencies()
@@ -31,35 +35,43 @@ class ProductsFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentProductsBinding.inflate(layoutInflater, container, false)
-
-        /*
-        productAdapter = ProductAdapter()
-        productAdapter.setRequestManager(GlideApp.with(this))
-         */
-
         return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding?.errorLayout?.tryAgainButton?.setOnClickListener { viewModel.getProducts() }
+        binding?.swipeContainer?.setOnRefreshListener { viewModel.getProducts() }
         observeViewModel()
     }
 
-    override fun onNetworkConnected() {
-        if (this::viewModel.isInitialized) {
-            viewModel.getProducts
+    private fun observeViewModel() {
+        viewModel.displayState.observe(viewLifecycleOwner) { displayState ->
+            when (displayState) {
+                ProductsDisplayState.Error -> binding?.productsViewFlipper.state = StateChild.ERROR
+                ProductsDisplayState.Loading -> binding?.productsViewFlipper.state =
+                    StateChild.LOADING
+                is ProductsDisplayState.Success -> {
+                    binding?.productsViewFlipper.state = StateChild.CONTENT
+                    binding?.swipeContainer?.isRefreshing = false
+                    productsAdapter =
+                        ProductsAdapter(displayState.products, ::onProductClickListener)
+                    binding?.productsRecyclerView?.adapter = productsAdapter
+                    binding?.productsRecyclerView?.layoutManager =
+                        LinearLayoutManager(requireContext())
+                }
+            }
         }
-        super.onNetworkConnected()
     }
 
-    private fun observeViewModel() {
-
-
+    private fun onProductClickListener(id: Int) {
+        //Next Step
     }
 
     private fun injectDependencies() {
         DaggerProductsComponent.builder()
-            .categoriesTabModule(ProductsModule(this))
+            .applicationComponent((requireActivity().application as SephoraChallengeApplication).applicationComponent)
+            .productsModule(ProductsModule(this))
             .build()
             .inject(this)
     }
