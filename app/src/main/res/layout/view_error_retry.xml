@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/text_view_error"
+        android:id="@+id/errorTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -19,15 +19,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button_try_again"
+        android:id="@+id/tryAgainButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:padding="15dp"
         android:text="@string/error_view_try_again_button_text"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@id/text_view_error"
-        app:layout_constraintStart_toStartOf="@id/text_view_error"
-        app:layout_constraintTop_toBottomOf="@id/text_view_error" />
+        app:layout_constraintEnd_toEndOf="@id/errorTextView"
+        app:layout_constraintStart_toStartOf="@id/errorTextView"
+        app:layout_constraintTop_toBottomOf="@id/errorTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

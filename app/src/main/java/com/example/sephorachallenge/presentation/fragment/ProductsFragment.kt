@@ -40,7 +40,7 @@ class ProductsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding?.errorLayout?.buttonTryAgain?.setOnClickListener { viewModel.getProducts() }
+        binding?.errorLayout?.tryAgainButton?.setOnClickListener { viewModel.getProducts() }
         binding?.swipeContainer?.setOnRefreshListener { viewModel.getProducts() }
         observeViewModel()
     }
@@ -48,11 +48,11 @@ class ProductsFragment : BaseFragment() {
     private fun observeViewModel() {
         viewModel.displayState.observe(viewLifecycleOwner) { displayState ->
             when (displayState) {
-                ProductsDisplayState.Error -> binding?.viewFlipperProducts.state = StateChild.ERROR
-                ProductsDisplayState.Loading -> binding?.viewFlipperProducts.state =
+                ProductsDisplayState.Error -> binding?.productsViewFlipper.state = StateChild.ERROR
+                ProductsDisplayState.Loading -> binding?.productsViewFlipper.state =
                     StateChild.LOADING
                 is ProductsDisplayState.Success -> {
-                    binding?.viewFlipperProducts.state = StateChild.CONTENT
+                    binding?.productsViewFlipper.state = StateChild.CONTENT
                     binding?.swipeContainer?.isRefreshing = false
                     productsAdapter =
                         ProductsAdapter(displayState.products, ::onProductClickListener)

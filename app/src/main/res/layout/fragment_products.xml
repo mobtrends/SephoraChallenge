@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <ViewFlipper
-        android:id="@+id/view_flipper_products"
+        android:id="@+id/productsViewFlipper"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:inAnimation="@anim/fade_in"
