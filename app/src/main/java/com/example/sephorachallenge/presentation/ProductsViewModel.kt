@@ -34,7 +34,7 @@ class ProductsViewModel(
                     transformer.transformProduct(product)
                 })
             )
-        } ?: kotlin.run {
+        } ?: run {
             displayState.postValue(ProductsDisplayState.Error)
         }
     }
