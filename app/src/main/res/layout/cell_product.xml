@@ -12,7 +12,7 @@
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
     app:cardBackgroundColor="@android:color/white"
-    app:cardCornerRadius="2dp"
+    app:cardCornerRadius="4dp"
     app:cardElevation="2dp">
 
 
@@ -24,6 +24,7 @@
             android:id="@+id/productImageView"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:scaleType="centerCrop"
             app:layout_constraintBottom_toTopOf="@id/brandNameTextView"
             app:layout_constraintDimensionRatio="h,16:9"
             app:layout_constraintEnd_toEndOf="parent"
@@ -52,6 +53,7 @@
             android:id="@+id/productNameTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
             android:layout_marginBottom="8dp"
             android:ellipsize="end"
             android:maxLines="2"
@@ -60,7 +62,7 @@
             android:textColor="@color/black"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:layout_marginTop="6dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/brandNameTextView"
@@ -75,6 +77,15 @@
             app:layout_constraintGuide_percent="@dimen/product_card_view_guideline_right"
             app:layout_constraintTop_toBottomOf="@id/productImageView" />
 
+        <View
+            android:id="@+id/view"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:background="@color/off_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideline_right"
+            app:layout_constraintTop_toBottomOf="@id/productImageView" />
+
         <TextView
             android:id="@+id/productPriceTextView"
             android:layout_width="wrap_content"
@@ -84,7 +95,7 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/productNameTextView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/guideline_right"
+            app:layout_constraintStart_toEndOf="@id/view"
             app:layout_constraintTop_toTopOf="@id/brandNameTextView"
             tools:text="140€" />
 
