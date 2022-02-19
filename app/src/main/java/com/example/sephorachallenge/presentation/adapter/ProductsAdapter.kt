@@ -33,9 +33,9 @@ class ProductsAdapter(
         Glide.with(holder.itemView.context)
             .load(displayableProduct[position].image)
             .into(holder.productImageView)
-        /*holder.productImageView.setOnClickListener {
+        holder.productCardView.setOnClickListener {
             onProductClickListener(displayableProduct[position].id)
-        }*/
+        }
     }
 
     inner class ProductsViewHolder(binding: CellProductBinding) :
