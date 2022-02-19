@@ -46,6 +46,7 @@ class ProductsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding?.errorLayout?.buttonTryAgain?.setOnClickListener { viewModel.getProducts() }
+        binding?.swipeContainer?.setOnRefreshListener { viewModel.getProducts() }
         observeViewModel()
     }
 
@@ -69,6 +70,7 @@ class ProductsFragment : BaseFragment() {
                         displayState.products[0].price,
                         Toast.LENGTH_LONG
                     ).show()
+                    binding?.swipeContainer?.isRefreshing = false
                 }
             }
         }
