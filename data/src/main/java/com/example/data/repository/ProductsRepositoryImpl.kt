@@ -23,7 +23,6 @@ class ProductsRepositoryImpl @Inject constructor(
 }
 
 interface ProductsApiService {
-
     @GET("/items.json")
     suspend fun fetchProducts(): List<JsonProducts>
 }
