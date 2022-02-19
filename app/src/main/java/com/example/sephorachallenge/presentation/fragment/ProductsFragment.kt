@@ -17,6 +17,9 @@ class ProductsFragment : BaseFragment() {
     @Inject
     lateinit var viewModel: ProductsViewModel
 
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         injectDependencies()
         super.onCreate(savedInstanceState)
