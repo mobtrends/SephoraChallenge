@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Sephora Challenge</string>
+    <string name="error_view_text_error">Le contenu n\'a pas pu se charger</string>
+    <string name="error_view_try_again_button_text">réessayer</string>
+    <string name="buy_text_view">ACHETER</string>
+    <string name="product_description_text_view"><u>Description du produit</u></string>
+</resources>
