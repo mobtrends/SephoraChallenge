@@ -5,7 +5,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.data.repository.ProductsApiService
 import com.example.data.repository.ProductsRepositoryImpl
 import com.example.domain.repository.ProductsRepository
+import com.example.sephorachallenge.data.database.repository.ProductsDatabaseRepositoryImpl
 import com.example.sephorachallenge.domain.mapper.DisplayableProductTransformer
+import com.example.sephorachallenge.domain.repository.ProductsDatabaseRepository
 import com.example.sephorachallenge.presentation.ProductsViewModel
 import com.example.sephorachallenge.presentation.fragment.ProductsFragment
 import dagger.Binds
@@ -19,13 +21,17 @@ import javax.inject.Inject
 class ProductsModule(private val fragment: ProductsFragment) {
 
     @Provides
-    fun provideService(retrofit: Retrofit) = retrofit.create(ProductsApiService::class.java)
+    fun provideService(retrofit: Retrofit): ProductsApiService =
+        retrofit.create(ProductsApiService::class.java)
 
     @Module
     internal abstract class BindingModule {
 
         @Binds
         abstract fun bindRepository(repository: ProductsRepositoryImpl): ProductsRepository
+
+        @Binds
+        abstract fun bindProductDatabaseRepository(repository: ProductsDatabaseRepositoryImpl): ProductsDatabaseRepository
     }
 
     @Provides
@@ -36,11 +42,17 @@ class ProductsModule(private val fragment: ProductsFragment) {
 
 class ProductsViewModelFactory @Inject constructor(
     private val productsRepository: ProductsRepository,
+    private val productsDatabaseRepository: ProductsDatabaseRepository,
     private val transformer: DisplayableProductTransformer,
     private val dispatcher: CoroutineDispatcher
 ) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T =
-        ProductsViewModel(productsRepository, transformer, dispatcher) as T
+        ProductsViewModel(
+            productsRepository,
+            productsDatabaseRepository,
+            transformer,
+            dispatcher
+        ) as T
 }

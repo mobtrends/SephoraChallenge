@@ -6,9 +6,11 @@ import com.example.domain.Product
 import com.example.domain.repository.ProductsRepository
 import com.example.sephorachallenge.domain.DisplayableProduct
 import com.example.sephorachallenge.domain.mapper.DisplayableProductTransformer
+import com.example.sephorachallenge.domain.repository.ProductsDatabaseRepository
 import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.inOrder
 import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.only
 import com.nhaarman.mockitokotlin2.then
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -34,6 +36,9 @@ class ProductsViewModelTest {
     private lateinit var transformer: DisplayableProductTransformer
 
     @Mock
+    private lateinit var repositoryDatabase: ProductsDatabaseRepository
+
+    @Mock
     private lateinit var observer: Observer<ProductsDisplayState>
 
     private lateinit var viewModel: ProductsViewModel
@@ -42,7 +47,7 @@ class ProductsViewModelTest {
     @Before
     fun setUp() {
         val dispatcher = Dispatchers.Unconfined
-        viewModel = ProductsViewModel(repository, transformer, dispatcher)
+        viewModel = ProductsViewModel(repository, repositoryDatabase, transformer, dispatcher)
         Dispatchers.setMain(dispatcher)
         viewModel.displayState.observeForever(observer)
     }
@@ -76,6 +81,7 @@ class ProductsViewModelTest {
         // Then
         inOrder(observer) {
             then(observer).should(this).onChanged(ProductsDisplayState.Loading)
+            then(repositoryDatabase).should(only()).insertAllProducts(listOf(product))
             then(observer).should(this)
                 .onChanged(ProductsDisplayState.Success(listOf(displayableProduct)))
         }
