@@ -16,9 +16,8 @@ class ProductsDatabaseRepositoryImpl @Inject constructor(
         dao.insertAll(productsEntityList)
     }
 
-    override fun getProductById(id: Int): Product? {
-        return dao.getProductFromId(id)?.let { productEntity ->
+    override fun getProductById(id: Int): Product? =
+        dao.getProductFromId(id)?.let { productEntity ->
             transformer.transformProductEntityToProduct(productEntity)
         }
-    }
 }
