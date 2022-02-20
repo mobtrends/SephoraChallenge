@@ -4,6 +4,7 @@ buildscript {
 
     ext.android_gradle_version = '7.0.0'
     ext.kotlin_version = '1.6.10'
+    ext.junit_version = '4.13.2'
 
     repositories {
         google()
@@ -15,13 +16,6 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
-
-/*plugins {
-    id 'com.android.application' version '7.1.0' apply false
-    id 'com.android.library' version '7.1.0' apply false
-    id 'org.jetbrains.kotlin.android' version '1.6.10' apply false
-    id 'org.jetbrains.kotlin.jvm' version '1.6.10' apply false
-}*/
 
 task clean(type: Delete) {
     delete rootProject.buildDir
