@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.repository.ProductsRepository
 import com.example.sephorachallenge.domain.DisplayableProduct
 import com.example.sephorachallenge.domain.mapper.DisplayableProductTransformer
+import com.example.sephorachallenge.domain.repository.ProductsDatabaseRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 
@@ -17,6 +18,7 @@ sealed class ProductsDisplayState {
 
 class ProductsViewModel(
     private val productsRepository: ProductsRepository,
+    private val productsDatabaseRepository: ProductsDatabaseRepository,
     private val transformer: DisplayableProductTransformer,
     private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
@@ -29,6 +31,7 @@ class ProductsViewModel(
         displayState.postValue(ProductsDisplayState.Loading)
         val productsList = productsRepository.fetchProducts()
         productsList?.let { products ->
+            productsDatabaseRepository.insertAllProducts(products)
             displayState.postValue(
                 ProductsDisplayState.Success(products = products.map { product ->
                     transformer.transformProduct(product)
