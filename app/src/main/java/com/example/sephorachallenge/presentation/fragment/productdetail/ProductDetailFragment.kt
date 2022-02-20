@@ -63,7 +63,6 @@ class ProductDetailFragment : BaseFragment() {
                 ProductDetailDisplayState.Loading -> binding?.productsDetailViewFlipper.state =
                     StateChild.LOADING
                 is ProductDetailDisplayState.Success -> {
-                    binding?.productsDetailViewFlipper.state = StateChild.CONTENT
                     binding?.productDetailLayout?.brandNameTextView?.text =
                         detailDisplayState.products.brandName
                     binding?.productDetailLayout?.productNameTextView?.text =
@@ -77,6 +76,7 @@ class ProductDetailFragment : BaseFragment() {
                             .load(detailDisplayState.products.imageUrl)
                             .into(imageView)
                     }
+                    binding?.productsDetailViewFlipper.state = StateChild.CONTENT
                 }
             }
         }

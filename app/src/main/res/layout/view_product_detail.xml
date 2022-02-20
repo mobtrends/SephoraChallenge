@@ -24,7 +24,7 @@
         android:layout_marginTop="18dp"
         android:layout_marginEnd="16dp"
         android:textColor="@color/black"
-        android:textSize="25sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,6 +35,8 @@
         android:id="@+id/productNameTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="3"
         android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/brandNameTextView"
@@ -42,14 +44,38 @@
         app:layout_constraintTop_toBottomOf="@id/brandNameTextView"
         tools:text="Size Up - Mascara Volume Extra Large Immédiat" />
 
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/divider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/productNameTextView" />
+
+    <TextView
+        android:id="@+id/descriptionTitleTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/product_description_text_view"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/descriptionTextView"
+        app:layout_constraintStart_toStartOf="@id/descriptionTextView"
+        app:layout_constraintTop_toBottomOf="@id/view" />
+
     <TextView
         android:id="@+id/descriptionTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="@id/brandNameTextView"
         app:layout_constraintStart_toStartOf="@id/productNameTextView"
-        app:layout_constraintTop_toBottomOf="@id/productNameTextView"
+        app:layout_constraintTop_toBottomOf="@id/descriptionTitleTextView"
         tools:text="Craquez pour le Mascara Size Up de Sephora Collection : Volume XXL immédiat, cils ultra allongés et recourbés ★ Formule vegan longue tenue ✓" />
 
     <androidx.constraintlayout.widget.ConstraintLayout

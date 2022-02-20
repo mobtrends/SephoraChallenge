@@ -53,13 +53,13 @@ class ProductsFragment : BaseFragment() {
                 ProductsDisplayState.Loading -> binding?.productsViewFlipper.state =
                     StateChild.LOADING
                 is ProductsDisplayState.Success -> {
-                    binding?.productsViewFlipper.state = StateChild.CONTENT
                     binding?.swipeContainer?.isRefreshing = false
                     productsAdapter =
                         ProductsAdapter(displayState.products, ::onProductClickListener)
                     binding?.productsRecyclerView?.adapter = productsAdapter
                     binding?.productsRecyclerView?.layoutManager =
                         LinearLayoutManager(requireContext())
+                    binding?.productsViewFlipper.state = StateChild.CONTENT
                 }
                 else -> binding?.productsViewFlipper.state = StateChild.ERROR
             }
