@@ -2,6 +2,7 @@ package com.example.sephorachallenge.presentation.fragment
 
 import androidx.fragment.app.Fragment
 import com.example.sephorachallenge.presentation.activity.MainActivity
+import com.example.sephorachallenge.presentation.fragment.productdetail.ProductDetailFragment
 
 abstract class BaseFragment : Fragment() {
     open val fragmentTag: String?

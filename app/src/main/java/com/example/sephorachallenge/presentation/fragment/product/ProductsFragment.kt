@@ -1,4 +1,4 @@
-package com.example.sephorachallenge.presentation.fragment
+package com.example.sephorachallenge.presentation.fragment.product
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,6 +13,7 @@ import com.example.sephorachallenge.presentation.StateChild
 import com.example.sephorachallenge.presentation.adapter.ProductsAdapter
 import com.example.sephorachallenge.presentation.di.components.DaggerProductsComponent
 import com.example.sephorachallenge.presentation.di.modules.ProductsModule
+import com.example.sephorachallenge.presentation.fragment.BaseFragment
 import com.example.sephorachallenge.presentation.state
 import javax.inject.Inject
 
@@ -60,6 +61,7 @@ class ProductsFragment : BaseFragment() {
                     binding?.productsRecyclerView?.layoutManager =
                         LinearLayoutManager(requireContext())
                 }
+                else -> binding?.productsViewFlipper.state = StateChild.ERROR
             }
         }
     }

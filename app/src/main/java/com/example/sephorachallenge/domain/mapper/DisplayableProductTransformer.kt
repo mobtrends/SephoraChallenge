@@ -2,6 +2,7 @@ package com.example.sephorachallenge.domain.mapper
 
 import com.example.domain.Product
 import com.example.sephorachallenge.domain.DisplayableProduct
+import com.example.sephorachallenge.domain.mapper.utils.PriceUtil.formatPrice
 import javax.inject.Inject
 
 class DisplayableProductTransformer @Inject constructor() {
@@ -14,6 +15,4 @@ class DisplayableProductTransformer @Inject constructor() {
             id = product.id
         )
     }
-
-    private fun formatPrice(price: Int) = "$price €"
 }
