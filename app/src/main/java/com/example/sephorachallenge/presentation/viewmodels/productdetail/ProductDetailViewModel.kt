@@ -12,7 +12,8 @@ import kotlinx.coroutines.launch
 sealed class ProductDetailDisplayState {
     object Loading : ProductDetailDisplayState()
     object Error : ProductDetailDisplayState()
-    data class Success(val products: DisplayableProductDetail) : ProductDetailDisplayState()
+    data class Success(val displayableProductDetail: DisplayableProductDetail) :
+        ProductDetailDisplayState()
 }
 
 class ProductDetailViewModel(
@@ -23,15 +24,17 @@ class ProductDetailViewModel(
 ) : ViewModel() {
 
     val displayState: MutableLiveData<ProductDetailDisplayState> by lazy {
-        MutableLiveData<ProductDetailDisplayState>().apply { getProductDetail() }
+        MutableLiveData<ProductDetailDisplayState>().apply { getProductDetails() }
     }
 
-    fun getProductDetail() = viewModelScope.launch(dispatcher) {
+    fun getProductDetails() = viewModelScope.launch(dispatcher) {
         displayState.postValue(ProductDetailDisplayState.Loading)
         val storedProduct = productsDatabaseRepository.getProductById(productId)
         storedProduct?.let { product ->
-            displayState.postValue(ProductDetailDisplayState.Success(transformer.transformProductDetail(product)))
-        } ?: kotlin.run {
+            displayState.postValue(
+                ProductDetailDisplayState.Success(transformer.transformProductDetail(product))
+            )
+        } ?: run {
             displayState.postValue(ProductDetailDisplayState.Error)
         }
     }

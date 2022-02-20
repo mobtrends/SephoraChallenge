@@ -18,7 +18,6 @@ import javax.inject.Inject
 
 class ProductDetailFragment : BaseFragment() {
 
-    private var id: Int? = null
     private var binding: FragmentProductDetailBinding? = null
 
     @Inject
@@ -27,9 +26,6 @@ class ProductDetailFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         injectDependencies()
         super.onCreate(savedInstanceState)
-        /*arguments?.let { bundle ->
-            id = bundle.getInt(ID)
-        }*/
     }
 
     override fun onCreateView(
@@ -43,7 +39,7 @@ class ProductDetailFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding?.errorLayout?.tryAgainButton?.setOnClickListener { viewModel.getProductDetail() }
+        binding?.errorLayout?.tryAgainButton?.setOnClickListener { viewModel.getProductDetails() }
         observeViewModel()
     }
 
@@ -64,16 +60,16 @@ class ProductDetailFragment : BaseFragment() {
                     StateChild.LOADING
                 is ProductDetailDisplayState.Success -> {
                     binding?.productDetailLayout?.brandNameTextView?.text =
-                        detailDisplayState.products.brandName
+                        detailDisplayState.displayableProductDetail.brandName
                     binding?.productDetailLayout?.productNameTextView?.text =
-                        detailDisplayState.products.productName
+                        detailDisplayState.displayableProductDetail.productName
                     binding?.productDetailLayout?.descriptionTextView?.text =
-                        detailDisplayState.products.description
+                        detailDisplayState.displayableProductDetail.description
                     binding?.productDetailLayout?.productPriceTextView?.text =
-                        detailDisplayState.products.price
+                        detailDisplayState.displayableProductDetail.price
                     binding?.productDetailLayout?.imageDetailImageView?.let { imageView ->
                         Glide.with(requireContext())
-                            .load(detailDisplayState.products.imageUrl)
+                            .load(detailDisplayState.displayableProductDetail.imageUrl)
                             .into(imageView)
                     }
                     binding?.productsDetailViewFlipper.state = StateChild.CONTENT

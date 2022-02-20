@@ -1,7 +1,5 @@
 package com.example.sephorachallenge.domain
 
-import com.example.domain.ImageUrl
-
 data class DisplayableProductDetail(
     val id: Int,
     val brandName: String,
