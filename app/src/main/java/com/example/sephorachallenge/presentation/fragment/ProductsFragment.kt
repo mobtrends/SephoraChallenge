@@ -65,7 +65,7 @@ class ProductsFragment : BaseFragment() {
     }
 
     private fun onProductClickListener(id: Int) {
-        //Next Step
+        openProductDetail(id)
     }
 
     private fun injectDependencies() {
