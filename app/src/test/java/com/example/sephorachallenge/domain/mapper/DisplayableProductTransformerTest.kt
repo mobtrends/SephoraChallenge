@@ -4,6 +4,7 @@ import com.example.domain.Brand
 import com.example.domain.ImageUrl
 import com.example.domain.Product
 import org.junit.Assert
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
@@ -34,10 +35,10 @@ class DisplayableProductTransformerTest {
         val displayableProduct = transformer.transformProduct(product)
 
         // Then
-        Assert.assertEquals(12345678, displayableProduct.id)
-        Assert.assertEquals("brandName", displayableProduct.brandName)
-        Assert.assertEquals("smallUrl", displayableProduct.image)
-        Assert.assertEquals("1234 €", displayableProduct.price)
-        Assert.assertEquals("productName", displayableProduct.productName)
+        assertEquals(12345678, displayableProduct.id)
+        assertEquals("brandName", displayableProduct.brandName)
+        assertEquals("smallUrl", displayableProduct.image)
+        assertEquals("1234 €", displayableProduct.price)
+        assertEquals("productName", displayableProduct.productName)
     }
 }

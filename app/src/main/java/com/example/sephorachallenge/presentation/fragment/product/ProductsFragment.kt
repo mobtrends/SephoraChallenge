@@ -1,4 +1,4 @@
-package com.example.sephorachallenge.presentation.fragment
+package com.example.sephorachallenge.presentation.fragment.product
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,6 +13,7 @@ import com.example.sephorachallenge.presentation.StateChild
 import com.example.sephorachallenge.presentation.adapter.ProductsAdapter
 import com.example.sephorachallenge.presentation.di.components.DaggerProductsComponent
 import com.example.sephorachallenge.presentation.di.modules.ProductsModule
+import com.example.sephorachallenge.presentation.fragment.BaseFragment
 import com.example.sephorachallenge.presentation.state
 import javax.inject.Inject
 
@@ -52,20 +53,21 @@ class ProductsFragment : BaseFragment() {
                 ProductsDisplayState.Loading -> binding?.productsViewFlipper.state =
                     StateChild.LOADING
                 is ProductsDisplayState.Success -> {
-                    binding?.productsViewFlipper.state = StateChild.CONTENT
                     binding?.swipeContainer?.isRefreshing = false
                     productsAdapter =
                         ProductsAdapter(displayState.products, ::onProductClickListener)
                     binding?.productsRecyclerView?.adapter = productsAdapter
                     binding?.productsRecyclerView?.layoutManager =
                         LinearLayoutManager(requireContext())
+                    binding?.productsViewFlipper.state = StateChild.CONTENT
                 }
+                else -> binding?.productsViewFlipper.state = StateChild.ERROR
             }
         }
     }
 
     private fun onProductClickListener(id: Int) {
-        //Next Step
+        openProductDetail(id)
     }
 
     private fun injectDependencies() {

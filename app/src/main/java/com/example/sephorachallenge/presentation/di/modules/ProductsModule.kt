@@ -9,7 +9,7 @@ import com.example.sephorachallenge.data.database.repository.ProductsDatabaseRep
 import com.example.sephorachallenge.domain.mapper.DisplayableProductTransformer
 import com.example.sephorachallenge.domain.repository.ProductsDatabaseRepository
 import com.example.sephorachallenge.presentation.ProductsViewModel
-import com.example.sephorachallenge.presentation.fragment.ProductsFragment
+import com.example.sephorachallenge.presentation.fragment.product.ProductsFragment
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

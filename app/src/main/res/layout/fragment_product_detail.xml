@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ViewFlipper xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/productsDetailViewFlipper"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:inAnimation="@anim/fade_in"
+    android:outAnimation="@anim/fade_out">
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
+    <include
+        android:id="@+id/productDetailLayout"
+        layout="@layout/view_product_detail" />
+
+    <include
+        android:id="@+id/errorLayout"
+        layout="@layout/view_error_retry" />
+
+</ViewFlipper>
