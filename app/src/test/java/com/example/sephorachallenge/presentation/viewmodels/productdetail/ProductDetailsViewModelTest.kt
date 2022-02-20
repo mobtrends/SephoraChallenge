@@ -3,8 +3,8 @@ package com.example.sephorachallenge.presentation.viewmodels.productdetail
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.example.domain.Product
-import com.example.sephorachallenge.domain.DisplayableProductDetail
-import com.example.sephorachallenge.domain.mapper.DisplayableProductDetailTransformer
+import com.example.sephorachallenge.domain.DisplayableProductDetails
+import com.example.sephorachallenge.domain.mapper.DisplayableProductDetailsTransformer
 import com.example.sephorachallenge.domain.repository.ProductsDatabaseRepository
 import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.inOrder
@@ -21,7 +21,7 @@ import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-class ProductDetailViewModelTest {
+class ProductDetailsViewModelTest {
 
     @get:Rule
     val rule = InstantTaskExecutorRule()
@@ -30,18 +30,18 @@ class ProductDetailViewModelTest {
     private lateinit var repository: ProductsDatabaseRepository
 
     @Mock
-    private lateinit var transformer: DisplayableProductDetailTransformer
+    private lateinit var transformer: DisplayableProductDetailsTransformer
 
     @Mock
-    private lateinit var observer: Observer<ProductDetailDisplayState>
+    private lateinit var observer: Observer<ProductDetailsDisplayState>
 
-    private lateinit var viewModel: ProductDetailViewModel
+    private lateinit var viewModel: ProductDetailsViewModel
 
     @ExperimentalCoroutinesApi
     @Before
     fun setUp() {
         val dispatcher = Dispatchers.Unconfined
-        viewModel = ProductDetailViewModel(
+        viewModel = ProductDetailsViewModel(
             PRODUCT_ID,
             repository,
             transformer,
@@ -61,8 +61,8 @@ class ProductDetailViewModelTest {
 
         // Then
         inOrder(observer) {
-            then(observer).should(this).onChanged(ProductDetailDisplayState.Loading)
-            then(observer).should(this).onChanged(ProductDetailDisplayState.Error)
+            then(observer).should(this).onChanged(ProductDetailsDisplayState.Loading)
+            then(observer).should(this).onChanged(ProductDetailsDisplayState.Error)
         }
     }
 
@@ -70,18 +70,18 @@ class ProductDetailViewModelTest {
     fun `getProductDetails when repository return a product present success`() {
         // Given
         val product = mock<Product>()
-        val displayableProductDetail = mock<DisplayableProductDetail>()
+        val displayableProductDetail = mock<DisplayableProductDetails>()
         given(repository.getProductById(PRODUCT_ID)).willReturn(product)
-        given(transformer.transformProductDetail(product)).willReturn(displayableProductDetail)
+        given(transformer.transformProductDetails(product)).willReturn(displayableProductDetail)
 
         // When
         viewModel.getProductDetails()
 
         // Then
         inOrder(observer) {
-            then(observer).should(this).onChanged(ProductDetailDisplayState.Loading)
+            then(observer).should(this).onChanged(ProductDetailsDisplayState.Loading)
             then(observer).should(this)
-                .onChanged(ProductDetailDisplayState.Success(displayableProductDetail))
+                .onChanged(ProductDetailsDisplayState.Success(displayableProductDetail))
         }
     }
 

@@ -7,13 +7,13 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
-class DisplayableProductDetailTransformerTest {
+class DisplayableProductDetailsTransformerTest {
 
-    private lateinit var transformer: DisplayableProductDetailTransformer
+    private lateinit var transformer: DisplayableProductDetailsTransformer
 
     @Before
     fun setUp() {
-        transformer = DisplayableProductDetailTransformer()
+        transformer = DisplayableProductDetailsTransformer()
     }
 
     @Test
@@ -31,7 +31,7 @@ class DisplayableProductDetailTransformerTest {
         )
 
         // When
-        val displayableProductDetail = transformer.transformProductDetail(product)
+        val displayableProductDetail = transformer.transformProductDetails(product)
 
         // Then
         Assert.assertEquals(12345678, displayableProductDetail.id)

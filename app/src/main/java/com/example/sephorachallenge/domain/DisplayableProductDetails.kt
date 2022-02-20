@@ -1,6 +1,6 @@
 package com.example.sephorachallenge.domain
 
-data class DisplayableProductDetail(
+data class DisplayableProductDetails(
     val id: Int,
     val brandName: String,
     val productName: String,

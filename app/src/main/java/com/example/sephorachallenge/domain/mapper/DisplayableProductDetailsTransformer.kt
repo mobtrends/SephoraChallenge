@@ -1,13 +1,13 @@
 package com.example.sephorachallenge.domain.mapper
 
 import com.example.domain.Product
-import com.example.sephorachallenge.domain.DisplayableProductDetail
+import com.example.sephorachallenge.domain.DisplayableProductDetails
 import com.example.sephorachallenge.domain.mapper.utils.PriceUtil
 import javax.inject.Inject
 
-class DisplayableProductDetailTransformer @Inject constructor() {
-    fun transformProductDetail(product: Product) =
-        DisplayableProductDetail(
+class DisplayableProductDetailsTransformer @Inject constructor() {
+    fun transformProductDetails(product: Product) =
+        DisplayableProductDetails(
             id = product.id,
             brandName = product.brand.name,
             productName = product.name,

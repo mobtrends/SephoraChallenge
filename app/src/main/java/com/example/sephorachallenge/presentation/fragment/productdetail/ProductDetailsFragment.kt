@@ -8,20 +8,20 @@ import com.bumptech.glide.Glide
 import com.example.sephorachallenge.SephoraChallengeApplication
 import com.example.sephorachallenge.databinding.FragmentProductDetailBinding
 import com.example.sephorachallenge.presentation.StateChild
-import com.example.sephorachallenge.presentation.di.components.DaggerProductDetailComponent
-import com.example.sephorachallenge.presentation.di.modules.ProductDetailModule
+import com.example.sephorachallenge.presentation.di.components.DaggerProductDetailsComponent
+import com.example.sephorachallenge.presentation.di.modules.ProductDetailsModule
 import com.example.sephorachallenge.presentation.fragment.BaseFragment
 import com.example.sephorachallenge.presentation.state
-import com.example.sephorachallenge.presentation.viewmodels.productdetail.ProductDetailDisplayState
-import com.example.sephorachallenge.presentation.viewmodels.productdetail.ProductDetailViewModel
+import com.example.sephorachallenge.presentation.viewmodels.productdetail.ProductDetailsDisplayState
+import com.example.sephorachallenge.presentation.viewmodels.productdetail.ProductDetailsViewModel
 import javax.inject.Inject
 
-class ProductDetailFragment : BaseFragment() {
+class ProductDetailsFragment : BaseFragment() {
 
     private var binding: FragmentProductDetailBinding? = null
 
     @Inject
-    lateinit var viewModel: ProductDetailViewModel
+    lateinit var viewModel: ProductDetailsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         injectDependencies()
@@ -44,32 +44,32 @@ class ProductDetailFragment : BaseFragment() {
     }
 
     private fun injectDependencies() {
-        DaggerProductDetailComponent.builder()
+        DaggerProductDetailsComponent.builder()
             .applicationComponent((requireActivity().application as SephoraChallengeApplication).applicationComponent)
-            .productDetailModule(ProductDetailModule(this, (arguments?.get(ID) as? Int) ?: 0))
+            .productDetailsModule(ProductDetailsModule(this, (arguments?.get(ID) as? Int) ?: 0))
             .build()
             .inject(this)
     }
 
     private fun observeViewModel() {
-        viewModel.displayState.observe(viewLifecycleOwner) { detailDisplayState ->
-            when (detailDisplayState) {
-                ProductDetailDisplayState.Error -> binding?.productsDetailViewFlipper.state =
+        viewModel.displayState.observe(viewLifecycleOwner) { detailsDisplayState ->
+            when (detailsDisplayState) {
+                ProductDetailsDisplayState.Error -> binding?.productsDetailViewFlipper.state =
                     StateChild.ERROR
-                ProductDetailDisplayState.Loading -> binding?.productsDetailViewFlipper.state =
+                ProductDetailsDisplayState.Loading -> binding?.productsDetailViewFlipper.state =
                     StateChild.LOADING
-                is ProductDetailDisplayState.Success -> {
+                is ProductDetailsDisplayState.Success -> {
                     binding?.productDetailLayout?.brandNameTextView?.text =
-                        detailDisplayState.displayableProductDetail.brandName
+                        detailsDisplayState.displayableProductDetails.brandName
                     binding?.productDetailLayout?.productNameTextView?.text =
-                        detailDisplayState.displayableProductDetail.productName
+                        detailsDisplayState.displayableProductDetails.productName
                     binding?.productDetailLayout?.descriptionTextView?.text =
-                        detailDisplayState.displayableProductDetail.description
+                        detailsDisplayState.displayableProductDetails.description
                     binding?.productDetailLayout?.productPriceTextView?.text =
-                        detailDisplayState.displayableProductDetail.price
+                        detailsDisplayState.displayableProductDetails.price
                     binding?.productDetailLayout?.imageDetailImageView?.let { imageView ->
                         Glide.with(requireContext())
-                            .load(detailDisplayState.displayableProductDetail.imageUrl)
+                            .load(detailsDisplayState.displayableProductDetails.imageUrl)
                             .into(imageView)
                     }
                     binding?.productsDetailViewFlipper.state = StateChild.CONTENT
@@ -84,7 +84,7 @@ class ProductDetailFragment : BaseFragment() {
 
         @JvmStatic
         fun newInstance(id: Int) =
-            ProductDetailFragment().apply {
+            ProductDetailsFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ID, id)
                 }
