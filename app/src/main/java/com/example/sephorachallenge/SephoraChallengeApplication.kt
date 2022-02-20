@@ -1,4 +1,4 @@
-package com.example.sephorachallenge.app
+package com.example.sephorachallenge
 
 import android.app.Application
 import com.example.sephorachallenge.presentation.di.components.ApplicationComponent

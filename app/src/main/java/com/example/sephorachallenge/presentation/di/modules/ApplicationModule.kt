@@ -1,8 +1,7 @@
 package com.example.sephorachallenge.presentation.di.modules
 
-import android.app.Application
 import android.content.Context
-import com.example.sephorachallenge.app.SephoraChallengeApplication
+import com.example.sephorachallenge.SephoraChallengeApplication
 import dagger.Module
 import dagger.Provides
 

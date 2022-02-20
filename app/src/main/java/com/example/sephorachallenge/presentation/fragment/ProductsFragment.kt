@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.sephorachallenge.app.SephoraChallengeApplication
+import com.example.sephorachallenge.SephoraChallengeApplication
 import com.example.sephorachallenge.databinding.FragmentProductsBinding
 import com.example.sephorachallenge.presentation.ProductsDisplayState
 import com.example.sephorachallenge.presentation.ProductsViewModel
