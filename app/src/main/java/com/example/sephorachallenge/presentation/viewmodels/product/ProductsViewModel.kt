@@ -1,5 +1,6 @@
-package com.example.sephorachallenge.presentation
+package com.example.sephorachallenge.presentation.viewmodels.product
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -23,22 +24,25 @@ class ProductsViewModel(
     private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    val displayState: MutableLiveData<ProductsDisplayState> by lazy {
+    private val _displayState: MutableLiveData<ProductsDisplayState> by lazy {
         MutableLiveData<ProductsDisplayState>().apply { getProducts() }
     }
 
+    val displayState: LiveData<ProductsDisplayState>
+        get() = _displayState
+
     fun getProducts() = viewModelScope.launch(dispatcher) {
-        displayState.postValue(ProductsDisplayState.Loading)
+        _displayState.postValue(ProductsDisplayState.Loading)
         val productsList = productsRepository.fetchProducts()
         productsList?.let { products ->
             productsDatabaseRepository.insertAllProducts(products)
-            displayState.postValue(
+            _displayState.postValue(
                 ProductsDisplayState.Success(products = products.map { product ->
                     transformer.transformProduct(product)
                 })
             )
         } ?: run {
-            displayState.postValue(ProductsDisplayState.Error)
+            _displayState.postValue(ProductsDisplayState.Error)
         }
     }
 }

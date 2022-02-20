@@ -7,6 +7,8 @@ import com.example.domain.repository.ProductsRepository
 import com.example.sephorachallenge.domain.DisplayableProduct
 import com.example.sephorachallenge.domain.mapper.DisplayableProductTransformer
 import com.example.sephorachallenge.domain.repository.ProductsDatabaseRepository
+import com.example.sephorachallenge.presentation.viewmodels.product.ProductsDisplayState
+import com.example.sephorachallenge.presentation.viewmodels.product.ProductsViewModel
 import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.inOrder
 import com.nhaarman.mockitokotlin2.mock
