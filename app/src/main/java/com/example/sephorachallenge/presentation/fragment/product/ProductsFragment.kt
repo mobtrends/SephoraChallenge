@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sephorachallenge.SephoraChallengeApplication
 import com.example.sephorachallenge.databinding.FragmentProductsBinding
-import com.example.sephorachallenge.presentation.ProductsDisplayState
-import com.example.sephorachallenge.presentation.ProductsViewModel
+import com.example.sephorachallenge.presentation.viewmodels.product.ProductsDisplayState
+import com.example.sephorachallenge.presentation.viewmodels.product.ProductsViewModel
 import com.example.sephorachallenge.presentation.StateChild
 import com.example.sephorachallenge.presentation.adapter.ProductsAdapter
 import com.example.sephorachallenge.presentation.di.components.DaggerProductsComponent
