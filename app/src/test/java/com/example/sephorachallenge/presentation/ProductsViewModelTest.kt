@@ -10,6 +10,7 @@ import com.example.sephorachallenge.domain.repository.ProductsDatabaseRepository
 import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.inOrder
 import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.only
 import com.nhaarman.mockitokotlin2.then
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -80,6 +81,7 @@ class ProductsViewModelTest {
         // Then
         inOrder(observer) {
             then(observer).should(this).onChanged(ProductsDisplayState.Loading)
+            then(repositoryDatabase).should(only()).insertAllProducts(listOf(product))
             then(observer).should(this)
                 .onChanged(ProductsDisplayState.Success(listOf(displayableProduct)))
         }
