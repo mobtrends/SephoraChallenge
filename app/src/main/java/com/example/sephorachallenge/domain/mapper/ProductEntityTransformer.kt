@@ -21,7 +21,7 @@ class ProductEntityTransformer @Inject constructor() {
         isSpecialBrand = product.isSpecialBrand
     )
 
-    fun transformProductEntityToProduct(productEntity: ProductEntity): Product? = Product(
+    fun transformProductEntityToProduct(productEntity: ProductEntity): Product = Product(
         id = productEntity.id,
         name = productEntity.productName,
         description = productEntity.description,

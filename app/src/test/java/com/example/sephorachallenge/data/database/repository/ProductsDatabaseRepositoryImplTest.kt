@@ -55,7 +55,6 @@ class ProductsDatabaseRepositoryImplTest {
         val product = repository.getProductById(2345678)
 
         // Then
-        then(dao).should(only()).getProductFromId(2345678)
         assertEquals(expectedProduct, product)
     }
 
@@ -68,7 +67,6 @@ class ProductsDatabaseRepositoryImplTest {
         val product = repository.getProductById(2345678)
 
         // Then
-        then(dao).should(only()).getProductFromId(2345678)
         assertNull(product)
     }
 }
