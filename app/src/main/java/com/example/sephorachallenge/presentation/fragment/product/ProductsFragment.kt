@@ -1,20 +1,24 @@
 package com.example.sephorachallenge.presentation.fragment.product
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSmoothScroller
+import androidx.recyclerview.widget.RecyclerView.SmoothScroller
 import com.example.sephorachallenge.SephoraChallengeApplication
 import com.example.sephorachallenge.databinding.FragmentProductsBinding
-import com.example.sephorachallenge.presentation.viewmodels.product.ProductsDisplayState
-import com.example.sephorachallenge.presentation.viewmodels.product.ProductsViewModel
 import com.example.sephorachallenge.presentation.StateChild
 import com.example.sephorachallenge.presentation.adapter.ProductsAdapter
 import com.example.sephorachallenge.presentation.di.components.DaggerProductsComponent
 import com.example.sephorachallenge.presentation.di.modules.ProductsModule
 import com.example.sephorachallenge.presentation.fragment.BaseFragment
 import com.example.sephorachallenge.presentation.state
+import com.example.sephorachallenge.presentation.viewmodels.product.ProductsDisplayState
+import com.example.sephorachallenge.presentation.viewmodels.product.ProductsViewModel
 import javax.inject.Inject
 
 class ProductsFragment : BaseFragment() {
@@ -66,8 +70,23 @@ class ProductsFragment : BaseFragment() {
         }
     }
 
-    private fun onProductClickListener(id: Int) {
-        openProductDetail(id)
+    private fun onProductClickListener(id: Int, position: Int) {
+        //val scrollToPosition = 3
+        //if (position != 0) {
+            openProductDetail(id)
+        /*} else {
+            Handler(Looper.getMainLooper()).post {
+                val smoothScroller: SmoothScroller = object : LinearSmoothScroller(context) {
+                    override fun getVerticalSnapPreference(): Int {
+                        return SNAP_TO_START
+                    }
+                }
+                smoothScroller.targetPosition = scrollToPosition
+                (binding?.productsRecyclerView?.layoutManager as LinearLayoutManager).startSmoothScroll(
+                    smoothScroller
+                )
+            }
+        }*/
     }
 
     private fun injectDependencies() {

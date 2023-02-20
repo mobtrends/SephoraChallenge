@@ -18,7 +18,7 @@ class ProductsDatabaseRepositoryModule {
             .build()
 
     @Provides
-    fun provideProductEntityTranformer() =
+    fun provideProductEntityTransformer() =
         ProductEntityTransformer()
 
     @Provides

@@ -12,7 +12,7 @@ import com.example.sephorachallenge.domain.DisplayableProduct
 
 class ProductsAdapter(
     private val displayableProduct: List<DisplayableProduct>,
-    private val onProductClickListener: (Int) -> Unit
+    private val onProductClickListener: (Int, Int) -> Unit
 ) : RecyclerView.Adapter<ProductsAdapter.ProductsViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -34,7 +34,7 @@ class ProductsAdapter(
             .load(displayableProduct[position].image)
             .into(holder.productImageView)
         holder.productCardView.setOnClickListener {
-            onProductClickListener(displayableProduct[position].id)
+            onProductClickListener(displayableProduct[position].id, position)
         }
     }
 
