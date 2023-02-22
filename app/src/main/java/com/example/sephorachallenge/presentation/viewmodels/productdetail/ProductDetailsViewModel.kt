@@ -1,13 +1,13 @@
 package com.example.sephorachallenge.presentation.viewmodels.productdetail
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sephorachallenge.domain.DisplayableProductDetails
 import com.example.sephorachallenge.domain.mapper.DisplayableProductDetailsTransformer
 import com.example.sephorachallenge.domain.repository.ProductsDatabaseRepository
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 sealed class ProductDetailsDisplayState {
@@ -24,22 +24,21 @@ class ProductDetailsViewModel(
     private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    private val _displayState: MutableLiveData<ProductDetailsDisplayState> by lazy {
-        MutableLiveData<ProductDetailsDisplayState>().apply { getProductDetails() }
+    private val _displayState: MutableStateFlow<ProductDetailsDisplayState> by lazy {
+        MutableStateFlow(ProductDetailsDisplayState.Loading)
     }
 
-    val displayState: LiveData<ProductDetailsDisplayState>
+    val displayState: StateFlow<ProductDetailsDisplayState>
         get() = _displayState
 
     fun getProductDetails() = viewModelScope.launch(dispatcher) {
-        _displayState.postValue(ProductDetailsDisplayState.Loading)
-        val storedProduct = productsDatabaseRepository.getProductById(productId)
-        storedProduct?.let { product ->
-            _displayState.postValue(
-                ProductDetailsDisplayState.Success(transformer.transformProductDetails(product))
-            )
-        } ?: run {
-            _displayState.postValue(ProductDetailsDisplayState.Error)
+        productsDatabaseRepository.getProductById(productId).collect { product ->
+            product?.let {
+                _displayState.value =
+                    ProductDetailsDisplayState.Success(transformer.transformProductDetails(product))
+            } ?: run {
+                _displayState.value = ProductDetailsDisplayState.Error
+            }
         }
     }
 }

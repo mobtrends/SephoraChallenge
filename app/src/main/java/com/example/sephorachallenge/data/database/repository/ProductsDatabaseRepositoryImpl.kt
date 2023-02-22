@@ -4,6 +4,8 @@ import com.example.domain.Product
 import com.example.sephorachallenge.data.database.dao.ProductDao
 import com.example.sephorachallenge.domain.mapper.ProductEntityTransformer
 import com.example.sephorachallenge.domain.repository.ProductsDatabaseRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class ProductsDatabaseRepositoryImpl @Inject constructor(
@@ -16,8 +18,10 @@ class ProductsDatabaseRepositoryImpl @Inject constructor(
         dao.insertAll(productsEntityList)
     }
 
-    override fun getProductById(id: Int): Product? =
-        dao.getProductFromId(id)?.let { productEntity ->
-            transformer.transformProductEntityToProduct(productEntity)
+    override fun getProductById(id: Int): Flow<Product?> =
+        flow {
+            emit(dao.getProductFromId(id)?.let { productEntity ->
+                transformer.transformProductEntityToProduct(productEntity)
+            })
         }
 }
