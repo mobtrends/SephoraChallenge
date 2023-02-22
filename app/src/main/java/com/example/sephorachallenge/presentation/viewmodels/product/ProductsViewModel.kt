@@ -27,7 +27,6 @@ class ProductsViewModel(
         get() = _displayState.asStateFlow()
 
     fun getProducts() = viewModelScope.launch(dispatcher) {
-        //_displayState.value = ProductsDisplayState.Loading
         productsRepository.fetchProducts().collect { products ->
             products?.let {
                 productsDatabaseRepository.insertAllProducts(products)
