@@ -1,14 +1,13 @@
 package com.example.sephorachallenge.presentation.fragment.product
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearSmoothScroller
-import androidx.recyclerview.widget.RecyclerView.SmoothScroller
 import com.example.sephorachallenge.SephoraChallengeApplication
 import com.example.sephorachallenge.databinding.FragmentProductsBinding
 import com.example.sephorachallenge.presentation.StateChild
@@ -19,6 +18,8 @@ import com.example.sephorachallenge.presentation.fragment.BaseFragment
 import com.example.sephorachallenge.presentation.state
 import com.example.sephorachallenge.presentation.viewmodels.product.ProductsDisplayState
 import com.example.sephorachallenge.presentation.viewmodels.product.ProductsViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 class ProductsFragment : BaseFragment() {
@@ -47,33 +48,37 @@ class ProductsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         binding?.errorLayout?.tryAgainButton?.setOnClickListener { viewModel.getProducts() }
         binding?.swipeContainer?.setOnRefreshListener { viewModel.getProducts() }
+        viewModel.getProducts()
         observeViewModel()
     }
 
     private fun observeViewModel() {
-        viewModel.displayState.observe(viewLifecycleOwner) { displayState ->
-            when (displayState) {
-                ProductsDisplayState.Error -> binding?.productsViewFlipper.state = StateChild.ERROR
-                ProductsDisplayState.Loading -> binding?.productsViewFlipper.state =
-                    StateChild.LOADING
-                is ProductsDisplayState.Success -> {
-                    binding?.swipeContainer?.isRefreshing = false
-                    productsAdapter =
-                        ProductsAdapter(displayState.products, ::onProductClickListener)
-                    binding?.productsRecyclerView?.adapter = productsAdapter
-                    binding?.productsRecyclerView?.layoutManager =
-                        LinearLayoutManager(requireContext())
-                    binding?.productsViewFlipper.state = StateChild.CONTENT
+        viewModel.displayState
+            .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+            .onEach { displayState ->
+                when (displayState) {
+                    ProductsDisplayState.Error -> binding?.productsViewFlipper.state =
+                        StateChild.ERROR
+                    ProductsDisplayState.Loading -> binding?.productsViewFlipper.state =
+                        StateChild.LOADING
+                    is ProductsDisplayState.Success -> {
+                        binding?.swipeContainer?.isRefreshing = false
+                        productsAdapter =
+                            ProductsAdapter(displayState.products, ::onProductClickListener)
+                        binding?.productsRecyclerView?.adapter = productsAdapter
+                        binding?.productsRecyclerView?.layoutManager =
+                            LinearLayoutManager(requireContext())
+                        binding?.productsViewFlipper.state = StateChild.CONTENT
+                    }
                 }
-                else -> binding?.productsViewFlipper.state = StateChild.ERROR
             }
-        }
+            .launchIn(lifecycleScope)
     }
 
     private fun onProductClickListener(id: Int, position: Int) {
         //val scrollToPosition = 3
         //if (position != 0) {
-            openProductDetail(id)
+        openProductDetail(id)
         /*} else {
             Handler(Looper.getMainLooper()).post {
                 val smoothScroller: SmoothScroller = object : LinearSmoothScroller(context) {
