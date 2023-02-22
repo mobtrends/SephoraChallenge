@@ -49,6 +49,11 @@ class ProductDetailsFragment : BaseFragment() {
         observeViewModel()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
+    }
+
     private fun injectDependencies() {
         DaggerProductDetailsComponent.builder()
             .applicationComponent((requireActivity().application as SephoraChallengeApplication).applicationComponent)

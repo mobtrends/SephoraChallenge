@@ -52,6 +52,11 @@ class ProductsFragment : BaseFragment() {
         observeViewModel()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
+    }
+
     private fun observeViewModel() {
         viewModel.displayState
             .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
