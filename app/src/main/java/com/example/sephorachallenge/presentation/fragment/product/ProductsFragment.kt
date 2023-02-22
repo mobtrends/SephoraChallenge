@@ -76,10 +76,14 @@ class ProductsFragment : BaseFragment() {
     }
 
     private fun onProductClickListener(id: Int, position: Int) {
-        //val scrollToPosition = 3
-        //if (position != 0) {
         openProductDetail(id)
-        /*} else {
+
+        /** Test Smooth Scroll **/
+
+        /*val scrollToPosition = 3
+        if (position != 0) {
+            openProductDetail(id)
+        } else {
             Handler(Looper.getMainLooper()).post {
                 val smoothScroller: SmoothScroller = object : LinearSmoothScroller(context) {
                     override fun getVerticalSnapPreference(): Int {
