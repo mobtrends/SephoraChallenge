@@ -27,6 +27,29 @@ class ProductsViewModel(
         get() = _displayState.asStateFlow()
 
     fun getProducts() = viewModelScope.launch(dispatcher) {
+
+        /** SEQUENTIAL CALLS **/
+        /*
+
+        val productFlow = async { productsRepository.fetchProducts() }
+        val anotherThingFlow = async { anotherRepository.fetchAnotherThing() }
+        val anotherThing2Flow = async { anotherRepository.fetchAnotherThing2() }
+
+        val product = productFlow.await()
+        val anotherThing = anotherThingFlow.await()
+        val anotherThing2 = anotherThing2Flow.await()
+
+        product.collect { prod ->
+            anotherThing.collect { at ->
+                anotherThing2.collect { at2 ->
+                    ....
+                    something = transform.productAndAnotherThing(prod, at, at2)
+                    displayState.value = SomethingDisplayState.Success(something)
+                }
+            }
+        }
+        */
+
         productsRepository.fetchProducts().collect { products ->
             products?.let {
                 productsDatabaseRepository.insertAllProducts(products)
