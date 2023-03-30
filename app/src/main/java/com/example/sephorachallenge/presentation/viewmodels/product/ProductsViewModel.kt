@@ -7,9 +7,11 @@ import com.example.sephorachallenge.domain.DisplayableProduct
 import com.example.sephorachallenge.domain.mapper.DisplayableProductTransformer
 import com.example.sephorachallenge.domain.repository.ProductsDatabaseRepository
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 class ProductsViewModel(
@@ -19,12 +21,12 @@ class ProductsViewModel(
     private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    private val _displayState: MutableStateFlow<ProductsDisplayState> by lazy {
-        MutableStateFlow(ProductsDisplayState.Loading)
+    private val _displayState: MutableSharedFlow<ProductsDisplayState> by lazy {
+        MutableSharedFlow()
     }
 
-    val displayState: StateFlow<ProductsDisplayState>
-        get() = _displayState.asStateFlow()
+    val displayState: SharedFlow<ProductsDisplayState>
+        get() = _displayState.asSharedFlow()
 
     fun getProducts() = viewModelScope.launch(dispatcher) {
 
@@ -50,17 +52,18 @@ class ProductsViewModel(
         }
         */
 
-        productsRepository.fetchProducts().collect { products ->
-            products?.let {
-                productsDatabaseRepository.insertAllProducts(products)
-                _displayState.value =
-                    ProductsDisplayState.Success(products = products.map { product ->
-                        transformer.transformProduct(product)
-                    })
-            } ?: run {
-                _displayState.value = ProductsDisplayState.Error
+        productsRepository.fetchProducts()
+            .catch { _displayState.emit(ProductsDisplayState.Error) }
+            .collect { products ->
+                products?.let {
+                    productsDatabaseRepository.insertAllProducts(products)
+                    _displayState.emit(
+                        ProductsDisplayState.Success(products = products.map { product ->
+                            transformer.transformProduct(product)
+                        })
+                    )
+                }
             }
-        }
     }
 }
 
